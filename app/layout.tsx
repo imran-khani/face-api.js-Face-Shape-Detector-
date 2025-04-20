@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     telephone: false,
     address: false,
   },
-  metadataBase: new URL("https://faceshapedetector.com"), // Replace with your actual domain
+  metadataBase: new URL("https://detect-face-shape.codeopx.com"), // Replace with your actual domain
   alternates: {
     canonical: "/",
   },

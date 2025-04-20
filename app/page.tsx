@@ -33,14 +33,14 @@ export default function Home() {
         // Use a more reliable CDN for the models
         const MODEL_URL = "https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights"
 
-   
+    
+     
 
         // Load only the models we need for basic face detection and landmarks
         await Promise.all([
           faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
           faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
         ])
-
 
         setIsModelLoaded(true)
         setLoadingError(null)
@@ -63,23 +63,49 @@ export default function Home() {
     }
   }, [])
 
-  const startWebcam = async () => {
-    if (videoRef.current) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-        videoRef.current.srcObject = stream
-      } catch (error) {
-        console.error("Error accessing webcam:", error)
-        setLoadingError("Could not access webcam. Please ensure you've granted camera permissions.")
-      }
-    }
-  }
-
   useEffect(() => {
     if (activeTab === "webcam" && isModelLoaded) {
       startWebcam()
+    } else if (activeTab !== "webcam" && videoRef.current && videoRef.current.srcObject) {
+      // Stop the webcam when switching away from webcam tab
+      const stream = videoRef.current.srcObject as MediaStream
+      const tracks = stream.getTracks()
+      tracks.forEach((track) => track.stop())
+      videoRef.current.srcObject = null
     }
   }, [activeTab, isModelLoaded])
+
+  const startWebcam = async () => {
+    if (videoRef.current) {
+      try {
+        // Stop any existing stream first
+        if (videoRef.current.srcObject) {
+          const stream = videoRef.current.srcObject as MediaStream
+          const tracks = stream.getTracks()
+          tracks.forEach((track) => track.stop())
+        }
+        
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { 
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          } 
+        })
+        videoRef.current.srcObject = stream
+        
+        // Ensure video plays when ready
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().catch(e => {
+            console.error("Error playing video:", e)
+            setLoadingError("Could not start webcam playback. Please try again.")
+          })
+        }
+      } catch (error) {
+        console.error("Error accessing webcam:", error)
+        setLoadingError("Could not access webcam. Please ensure you've granted camera permissions and no other application is using your camera.")
+      }
+    }
+  }
 
   const toggleMirror = () => {
     setIsMirrored(!isMirrored)
@@ -400,6 +426,18 @@ export default function Home() {
                         </div>
                       </div>
                     )}
+                    
+                    {isModelLoaded && loadingError && loadingError.includes("webcam") && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-background/80">
+                        <div className="flex flex-col items-center gap-2">
+                          <AlertTriangle className="h-8 w-8 text-red-500" />
+                          <p className="text-center mb-2">{loadingError}</p>
+                          <Button onClick={startWebcam} variant="outline" size="sm">
+                            Retry Webcam Access
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex gap-3 mt-6">
@@ -540,12 +578,12 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <footer className="mt-20 pt-8 pb-8 border-t border-gray-200 pl-5">
+      <footer className="mt-20 pt-8 pb-8 border-t border-gray-200 lg:pl-5">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="font-medium mb-4">Terms of Service</h3>
             <p className="text-sm text-gray-600 mb-2">
-              By using Face type Detector, you agree to these terms. We provide this service as is, without warranties.
+              By using Face typeDetector, you agree to these terms. We provide this service as is, without warranties.
             </p>
             <p className="text-sm text-gray-600">
               We reserve the right to modify or terminate the service for any reason, without notice at any time.
@@ -555,7 +593,7 @@ export default function Home() {
           <div>
             <h3 className="font-medium mb-4">Privacy Policy</h3>
             <p className="text-sm text-gray-600 mb-2">
-              We collect minimal data necessary to provide our service. This includes the URLs you submit for Face type detection.
+              We collect minimal data necessary to provide our service. This includes the URLs you submit for Face typedetection.
             </p>
             <p className="text-sm text-gray-600">
               We use cookies to enhance your experience. You can opt out of non-essential cookies at any time.
