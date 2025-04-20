@@ -66,6 +66,7 @@ export default function RootLayout({
         <link rel="icon" href="/icon.svg" sizes="any" />
         <link rel="apple-touch-icon" href="/icon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="google-site-verification" content="IGnxBXXuJZnPo_xBhWnVoueev58n1O_EHmf0XGEdDv4" />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
