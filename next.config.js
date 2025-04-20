@@ -25,7 +25,6 @@ const nextConfig = {
             name: 'framework',
             test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
             priority: 40,
-            // Don't let webpack eliminate this chunk
             enforce: true,
           },
           lib: {
@@ -39,8 +38,8 @@ const nextConfig = {
               const rawRequest = module.rawRequest || '';
               const packageName = rawRequest
                 .match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1]
-                .replace('@', '')
-                .replace(/[\\/]/, '_') || 'lib';
+                ?.replace('@', '')
+                ?.replace(/[\\/]/, '_') || 'lib';
               return `npm.${packageName}`;
             },
             priority: 30,
@@ -57,13 +56,17 @@ const nextConfig = {
     }
     return config;
   },
-  // Experimental features
-  experimental: {
-    // Enable optimizeCss
-    optimizeCss: true,
-    // Enable modern JavaScript output
-    outputFileTracing: true,
-  },
-};
+}
 
-module.exports = nextConfig;
+// Only add the bundle analyzer if it's installed
+let config = nextConfig;
+try {
+  const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+  });
+  config = withBundleAnalyzer(nextConfig);
+} catch (e) {
+  console.warn('Bundle analyzer not found, skipping...');
+}
+
+module.exports = config;
