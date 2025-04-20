@@ -83,6 +83,7 @@ export default function Home() {
           const stream = videoRef.current.srcObject as MediaStream
           const tracks = stream.getTracks()
           tracks.forEach((track) => track.stop())
+          videoRef.current.srcObject = null
         }
         
         const stream = await navigator.mediaDevices.getUserMedia({ 
@@ -126,6 +127,13 @@ export default function Home() {
       const canvas = canvasRef.current
 
       if (!video || !canvas) return
+
+      // Check if webcam is active and has a valid stream
+      if (activeTab === "webcam" && (!video.srcObject || video.readyState !== 4)) {
+        await startWebcam()
+        // Give the webcam a moment to initialize
+        await new Promise(resolve => setTimeout(resolve, 1000))
+      }
 
       const displaySize = { width: video.videoWidth, height: video.videoHeight }
       faceapi.matchDimensions(canvas, displaySize)
@@ -462,6 +470,14 @@ export default function Home() {
                       title={isMirrored ? "Show non-mirrored view" : "Show mirrored view"}
                     >
                       {isMirrored ? "Mirror: On" : "Mirror: Off"}
+                    </Button>
+                    <Button
+                      onClick={startWebcam}
+                      variant="outline"
+                      className="px-4 rounded-full"
+                      title="Restart webcam"
+                    >
+                      Restart
                     </Button>
                   </div>
                 </TabsContent>
