@@ -33,8 +33,7 @@ export default function Home() {
         // Use a more reliable CDN for the models
         const MODEL_URL = "https://raw.githubusercontent.com/justadudewhohacks/face-api.js/master/weights"
 
-        // Show loading status
-        console.log("Loading face detection models from CDN...")
+   
 
         // Load only the models we need for basic face detection and landmarks
         await Promise.all([
@@ -42,7 +41,7 @@ export default function Home() {
           faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
         ])
 
-        console.log("Face detection models loaded successfully")
+
         setIsModelLoaded(true)
         setLoadingError(null)
       } catch (error) {
