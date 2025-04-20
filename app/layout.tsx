@@ -15,18 +15,18 @@ export const metadata: Metadata = {
     telephone: false,
     address: false,
   },
-  metadataBase: new URL("https://detect-face-shape.codeopx.com"), // Replace with your actual domain
+  metadataBase: new URL("https://detect-face-shape.codeopx.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Face Shape Detector! Face Type Detector AI",
     description: "Detect your face shape using AI for better style choices",
-    url: "https://detect-face-shape.codeopx.com", // Replace with your actual domain
+    url: "https://detect-face-shape.codeopx.com",
     siteName: "Face Shape Detector",
     images: [
       {
-        url: "/logo.jpg", // Add your actual OG image path
+        url: "/logo.jpg",
         width: 1200,
         height: 630,
         alt: "Face Shape Detector Preview",
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Face Shape Detector! Face Type Detector AI",
     description: "Detect your face shape using AI for better style choices",
-    images: ["/logo.jpg"], // Add your actual Twitter image path
-    creator: "@tsnnl", // Replace with your actual Twitter handle
+    images: ["/logo.jpg"],
+    creator: "@tsnnl",
   },
   robots: {
     index: true,
@@ -67,6 +67,13 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="google-site-verification" content="IGnxBXXuJZnPo_xBhWnVoueev58n1O_EHmf0XGEdDv4" />
+        {/* Preload critical assets */}
+        <link rel="preload" href="/logo.jpg" as="image" />
+        {/* Add preconnect for external domains if any */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Add DNS prefetch */}
+        <link rel="dns-prefetch" href="https://detect-face-shape.codeopx.com" />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
