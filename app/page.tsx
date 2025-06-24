@@ -4,7 +4,6 @@ import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import { Header } from "@/components/layout/Header"
 import { HeroSection } from "@/components/layout/HeroSection"
-import { DetectorSection } from "@/components/DetectorSection"
 import FaceShapeResult from "@/components/face-shape-result"
 import FaceShapeGuide from "@/components/face-shape-guide"
 import Link from "next/link"
@@ -342,49 +341,19 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background">
-      <header className="fixed top-0 left-0 right-0 z-10 bg-transparent backdrop-blur-sm py-4 px-6">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <Link
-              href="/"
-              className="flex items-center hover:opacity-90 transition-opacity"
-              onClick={(e) => {
-                e.preventDefault();
-                window.location.href = '/';
-              }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-6 h-6 text-blue-600 mr-2">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <h1 className="text-xl font-medium"> Face Type Detector</h1>
-            </Link>
-          </div>
-          <nav className="flex items-center space-x-6">
-            {/* <a href="/docs" className="text-blue-600 hover:underline text-sm">Docs</a>
-            <a href="/" className="text-blue-600 hover:underline text-sm">Features</a> */}
-            <a href="https://codeopx.com/about" className="text-blue-600 hover:underline text-sm">About</a>
-          </nav>
-        </div>
-      </header>
+      <Header />
+      <HeroSection />
       
       <div className="container mx-auto py-12 px-4 max-w-6xl">
-        <header className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4 mt-5">Face Shape Detector - AI-Powered Face Analysis Tool</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover your face shape instantly with our free AI face shape detector. Get personalized hairstyle, makeup, and accessory recommendations based on your unique facial features.
-          </p>
 
-          <div className="flex justify-center items-center gap-2 mt-6">
-            <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-            <span className="w-2 h-2 rounded-full bg-red-500"></span>
-            <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-            <span className="w-2 h-2 rounded-full bg-green-500"></span>
-            <span className="w-2 h-2 rounded-full bg-purple-500"></span>
-            <span className="w-2 h-2 rounded-full bg-pink-500"></span>
-            <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+        {/* Enhanced Detector Section */}
+        <section id="detector" className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-4">AI Face Shape Detector Tool</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Use live webcam or upload a photo to get instant face shape analysis with personalized style recommendations
+            </p>
           </div>
-        </header>
-
         {loadingError && (
           <Alert variant="destructive" className="mb-10 max-w-3xl mx-auto">
             <AlertTriangle className="h-4 w-4" />
@@ -399,10 +368,17 @@ export default function Home() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          <Card className="w-full border-0 shadow-lg rounded-xl overflow-hidden">
-            <CardHeader className="bg-primary/5 pb-4">
-              <CardTitle className="text-2xl">Detect Your Face Shape</CardTitle>
-              <CardDescription>Upload a photo or use your webcam to detect your face shape</CardDescription>
+          <Card className="w-full border-0 shadow-2xl rounded-2xl overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 max-w-4xl mx-auto">
+            <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white pb-8">
+              <div className="flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                  <Zap className="w-8 h-8" />
+                </div>
+              </div>
+              <CardTitle className="text-2xl text-center">Face Shape Analysis</CardTitle>
+              <CardDescription className="text-blue-100 text-center text-lg">
+                Advanced AI technology for accurate face shape detection with live webcam support
+              </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -546,6 +522,7 @@ export default function Home() {
             <FaceShapeGuide />
           </div>
         </div>
+        </section>
 
         {/* How It Works Section */}
         <section id="how-it-works" className="py-16">
