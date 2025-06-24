@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://detect-face-shape.codeopx.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin or sensitive paths (if any)
+# Disallow: /admin/
+# Disallow: /api/
+
+# Allow important pages
+Allow: /face-shapes/
+Allow: /about
+Allow: /privacy
+Allow: /terms

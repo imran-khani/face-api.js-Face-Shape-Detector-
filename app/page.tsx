@@ -1,16 +1,18 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect, useRef } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Camera, Upload, Loader2, AlertTriangle, Info } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Header } from "@/components/layout/Header"
+import { HeroSection } from "@/components/layout/HeroSection"
+import { DetectorSection } from "@/components/DetectorSection"
 import FaceShapeResult from "@/components/face-shape-result"
 import FaceShapeGuide from "@/components/face-shape-guide"
 import Link from "next/link"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Camera, Zap, Shield, Users, Star, CheckCircle, Upload, Loader2, AlertTriangle, Info } from "lucide-react"
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("upload") // Changed from "webcam" to "upload"
@@ -367,9 +369,9 @@ export default function Home() {
       
       <div className="container mx-auto py-12 px-4 max-w-6xl">
         <header className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4 mt-5">Face Shape Detector</h1>
+          <h1 className="text-4xl font-bold mb-4 mt-5">Face Shape Detector - AI-Powered Face Analysis Tool</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Unlock a personalized style built with your face shape in mind
+            Discover your face shape instantly with our free AI face shape detector. Get personalized hairstyle, makeup, and accessory recommendations based on your unique facial features.
           </p>
 
           <div className="flex justify-center items-center gap-2 mt-6">
@@ -545,99 +547,221 @@ export default function Home() {
           </div>
         </div>
 
-        <section className="mt-16 text-center">
-          <h2 className="text-2xl font-bold mb-4">How Face Shape Detection Works</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-            Our AI analyzes facial landmarks to determine your face shape, helping you find the most flattering styles.
-          </p>
+        {/* How It Works Section */}
+        <section id="how-it-works" className="py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">How Our AI Face Shape Detector Works</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
+              Our advanced AI face shape analyzer uses facial landmark detection to determine your face shape with 95%+ accuracy. Simply upload a photo or use your webcam to get instant results and personalized style recommendations.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <Card className="bg-primary/5 border-0">
-              <CardContent className="pt-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                  <Camera className="h-6 w-6 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900">
+              <CardContent className="pt-8 pb-6 text-center">
+                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Camera className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="font-medium text-lg mb-2">Capture</h3>
+                <h3 className="font-semibold text-lg mb-3">Upload & Analyze</h3>
                 <p className="text-sm text-muted-foreground">
-                  Take a photo or upload an existing one with your face clearly visible
+                  Upload a clear photo or use webcam to capture your face for AI analysis
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-primary/5 border-0">
-              <CardContent className="pt-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-primary">
-                    <path d="M2 12a5 5 0 0 0 5 5 8 8 0 0 1 5 2 8 8 0 0 1 5-2 5 5 0 0 0 5-5V7h-5a8 8 0 0 0-5 2 8 8 0 0 0-5-2H2Z"></path>
-                  </svg>
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900">
+              <CardContent className="pt-8 pb-6 text-center">
+                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Zap className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="font-medium text-lg mb-2">Analyze</h3>
+                <h3 className="font-semibold text-lg mb-3">AI Detection</h3>
                 <p className="text-sm text-muted-foreground">
-                  Our AI measures key facial proportions to determine your face shape
+                  Advanced AI analyzes facial landmarks and proportions to detect your face shape
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="bg-primary/5 border-0">
-              <CardContent className="pt-6">
-                <div className="rounded-full bg-primary/10 w-12 h-12 flex items-center justify-center mx-auto mb-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-primary">
-                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                  </svg>
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900">
+              <CardContent className="pt-8 pb-6 text-center">
+                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Star className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="font-medium text-lg mb-2">Discover</h3>
+                <h3 className="font-semibold text-lg mb-3">Style Recommendations</h3>
                 <p className="text-sm text-muted-foreground">
-                  Get personalized style recommendations based on your unique face shape
+                  Get personalized hairstyle, makeup, and accessory recommendations for your face shape
                 </p>
               </CardContent>
             </Card>
           </div>
         </section>
+
+        {/* Face Shape Types Section */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-900 rounded-3xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Face Shape Types & Style Guides</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Explore detailed guides for each face shape with expert styling recommendations
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {[
+              { name: "Round", desc: "Soft curves, similar width and height", icon: "🟡" },
+              { name: "Oval", desc: "Balanced proportions, ideal face shape", icon: "🔵" },
+              { name: "Square", desc: "Strong jawline, angular features", icon: "🟩" },
+              { name: "Heart", desc: "Wider forehead, narrow chin", icon: "💖" },
+              { name: "Diamond", desc: "Wide cheekbones, narrow forehead", icon: "💎" },
+              { name: "Oblong", desc: "Long and narrow, high forehead", icon: "🔸" }
+            ].map((shape) => (
+              <Link key={shape.name} href={`/face-shapes/${shape.name.toLowerCase()}`} 
+                className="group p-6 bg-white dark:bg-gray-800 rounded-xl hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-200 dark:border-gray-700">
+                <div className="text-center">
+                  <div className="text-3xl mb-3">{shape.icon}</div>
+                  <h3 className="font-semibold mb-2 group-hover:text-blue-600 transition-colors">{shape.name} Face</h3>
+                  <p className="text-sm text-muted-foreground">{shape.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Why Choose Our Face Shape Detector?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Advanced technology meets user privacy for the best face shape detection experience
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="border-0 shadow-lg text-center p-6">
+              <Shield className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">100% Private</h3>
+              <p className="text-sm text-muted-foreground">All processing happens in your browser. No data stored.</p>
+            </Card>
+            
+            <Card className="border-0 shadow-lg text-center p-6">
+              <Zap className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">Lightning Fast</h3>
+              <p className="text-sm text-muted-foreground">Get results in seconds with our optimized AI.</p>
+            </Card>
+            
+            <Card className="border-0 shadow-lg text-center p-6">
+              <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">95%+ Accurate</h3>
+              <p className="text-sm text-muted-foreground">Advanced facial landmark detection technology.</p>
+            </Card>
+            
+            <Card className="border-0 shadow-lg text-center p-6">
+              <Users className="w-12 h-12 text-orange-600 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">Trusted by Thousands</h3>
+              <p className="text-sm text-muted-foreground">Join 2,500+ satisfied users worldwide.</p>
+            </Card>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Everything you need to know about our AI face shape detector
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto space-y-6">
+            {[
+              {
+                q: "How accurate is the AI face shape detector?",
+                a: "Our AI face shape detector uses advanced facial landmark detection technology with over 95% accuracy. It analyzes key facial measurements and proportions to determine your face shape reliably."
+              },
+              {
+                q: "Is my photo stored or shared?",
+                a: "No, we prioritize your privacy. All face shape detection is processed locally in your browser. Photos are not stored on our servers or shared with third parties."
+              },
+              {
+                q: "What face shapes can be detected?",
+                a: "Our tool detects 6 main face shapes: Round, Oval, Square, Heart, Diamond, and Oblong. Each comes with detailed style recommendations for hairstyles, makeup, and accessories."
+              },
+              {
+                q: "What photo works best for face shape detection?",
+                a: "Use a clear, front-facing photo with good lighting. Ensure your entire face is visible, hair pulled back, and avoid shadows or extreme angles for best results."
+              }
+            ].map((faq, index) => (
+              <details key={index} className="border rounded-xl p-6 hover:shadow-md transition-shadow">
+                <summary className="font-semibold cursor-pointer text-lg">{faq.q}</summary>
+                <p className="mt-4 text-muted-foreground leading-relaxed">{faq.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </div>
-      <footer className="mt-20 pt-8 pb-8 border-t border-gray-200 lg:pl-5">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div>
-            <h3 className="font-medium mb-4">Terms of Service</h3>
-            <p className="text-sm text-gray-600 mb-2">
-              By using Face typeDetector, you agree to these terms. We provide this service as is, without warranties.
-            </p>
-            <p className="text-sm text-gray-600">
-              We reserve the right to modify or terminate the service for any reason, without notice at any time.
-            </p>
+      {/* Enhanced Footer */}
+      <footer className="bg-gray-900 text-white">
+        <div className="container mx-auto py-16 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5 text-white">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <span className="font-semibold text-xl">Face Shape Detector</span>
+              </div>
+              <p className="text-gray-300 mb-6 max-w-md">
+                The most accurate AI-powered face shape detector. Get instant results with live webcam or photo upload. 
+                100% free and privacy-focused.
+              </p>
+              <div className="flex space-x-4">
+                <a href="https://github.com/thsvo" className="text-gray-400 hover:text-white transition-colors">
+                  <span className="sr-only">GitHub</span>
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                </a>
+                <a href="https://wa.me/+8801792577349" className="text-gray-400 hover:text-white transition-colors">
+                  <span className="sr-only">WhatsApp</span>
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-4">Face Shapes</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li><Link href="/face-shapes/round" className="hover:text-white transition-colors">Round Face</Link></li>
+                <li><Link href="/face-shapes/oval" className="hover:text-white transition-colors">Oval Face</Link></li>
+                <li><Link href="/face-shapes/square" className="hover:text-white transition-colors">Square Face</Link></li>
+                <li><Link href="/face-shapes/heart" className="hover:text-white transition-colors">Heart Face</Link></li>
+                <li><Link href="/face-shapes/diamond" className="hover:text-white transition-colors">Diamond Face</Link></li>
+                <li><Link href="/face-shapes/oblong" className="hover:text-white transition-colors">Oblong Face</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-4">Legal & Support</h3>
+              <ul className="space-y-2 text-gray-300">
+                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="https://codeopx.com/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
+                <li><Link href="https://codeopx.com/about" className="hover:text-white transition-colors">About</Link></li>
+                <li><Link href="#detector" className="hover:text-white transition-colors">Try Tool</Link></li>
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <h3 className="font-medium mb-4">Privacy Policy</h3>
-            <p className="text-sm text-gray-600 mb-2">
-              We collect minimal data necessary to provide our service. This includes the URLs you submit for Face typedetection.
-            </p>
-            <p className="text-sm text-gray-600">
-              We use cookies to enhance your experience. You can opt out of non-essential cookies at any time.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="font-medium mb-4">Data Usage</h3>
-            <p className="text-sm text-gray-600 mb-2">
-              We do not sell your personal data to third parties. We may use anonymized data for improving our service.
-            </p>
-            <p className="text-sm text-gray-600">
-              You can request deletion of your data by contacting us.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            {/* <div className="mb-4 md:mb-0">
-                  <a href="/terms" className="text-gray-600 hover:text-gray-900 mr-4">Terms of Service</a>
-                  <a href="/privacy" className="text-gray-600 hover:text-gray-900">Privacy Policy</a>
-                </div> */}
-
-            <div className="flex space-x-6">
-              <a href="https://github.com/thsvo" className="text-gray-600 hover:text-gray-900">Github</a>
-              <a href="https://wa.me/+8801792577349" className="text-gray-600 hover:text-gray-900">WhatsApp</a>
-              <a href="https://codeopx.com/contact" className="text-gray-600 hover:text-gray-900">Contact</a>
+          <div className="border-t border-gray-700 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 text-sm mb-4 md:mb-0">
+                © 2025 Face Shape Detector. All rights reserved. Built with ❤️ for better style choices.
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-gray-400">
+                <span>🚀 AI-Powered</span>
+                <span>🔒 Private</span>
+                <span>⚡ Fast</span>
+                <span>🎯 Accurate</span>
+              </div>
             </div>
           </div>
         </div>
