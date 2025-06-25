@@ -1,6 +1,6 @@
 import { generateMetadata as createMetadata } from "@/lib/seo/metadata"
 import { createFaceShapeSchema, faceShapeData } from "@/lib/seo/schemas"
-import { StructuredData } from "@/components/seo/StructuredData"
+import { StructuredData } from "@/components/SEO/StructuredData"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 
@@ -38,7 +38,7 @@ export default function FaceShapePage({ params }: { params: { shape: string } })
     <>
       <StructuredData schema={createFaceShapeSchema(shapeName)} />
       
-      <main className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background">
         <div className="container mx-auto py-12 px-4 max-w-4xl">
           <header className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">{shapeName} Face Shape Complete Guide</h1>
@@ -102,7 +102,7 @@ export default function FaceShapePage({ params }: { params: { shape: string } })
             </section>
           </div>
         </div>
-      </main>
+      </div>
     </>
   )
 }

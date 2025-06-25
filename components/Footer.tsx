@@ -37,7 +37,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Face Shapes</h3>
             <ul className="space-y-2 text-gray-300">
-              <li><Link href="/face-shapes/round" className="hover:text-white transition-colors">Round Face</Link></li>
+              <li><Link href="/face-shapes" className="hover:text-white transition-colors">Round Face</Link></li>
               <li><Link href="/face-shapes/oval" className="hover:text-white transition-colors">Oval Face</Link></li>
               <li><Link href="/face-shapes/square" className="hover:text-white transition-colors">Square Face</Link></li>
               <li><Link href="/face-shapes/heart" className="hover:text-white transition-colors">Heart Face</Link></li>

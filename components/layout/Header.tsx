@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
@@ -21,13 +23,13 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/face-shapes/round" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/face-shapes" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Face Shapes
             </Link>
             <Link href="/privacy" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Privacy
             </Link>
-            <Link href="https://codeopx.com/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               About
             </Link>
             <Button asChild variant="default" size="sm">
@@ -54,7 +56,7 @@ export function Header() {
           <div className="md:hidden border-t py-4">
             <nav className="flex flex-col space-y-4">
               <Link 
-                href="/face-shapes/round" 
+                href="/face-shapes" 
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -68,7 +70,7 @@ export function Header() {
                 Privacy
               </Link>
               <Link 
-                href="https://codeopx.com/about" 
+                href="/about" 
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

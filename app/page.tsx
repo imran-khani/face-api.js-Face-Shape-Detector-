@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Header } from "@/components/layout/Header"
 import { HeroSection } from "@/components/layout/HeroSection"
 import FaceShapeResult from "@/components/face-shape-result"
 import FaceShapeGuide from "@/components/face-shape-guide"
@@ -12,7 +11,6 @@ import { WhyChooseUsSection } from "@/components/WhyChooseUsSection"
 import { FAQSection } from "@/components/FAQSection"
 import { UserReviewsSection } from "@/components/UserReviewsSection"
 import { CTASection } from "@/components/CTASection"
-import { Footer } from "@/components/Footer"
 
 export default function Home() {
   const [faceShape, setFaceShape] = useState<string | null>(null)
@@ -31,8 +29,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      <Header />
+    <>
       <HeroSection />
       
       <div className="container mx-auto py-12 px-4 max-w-6xl">
@@ -65,8 +62,6 @@ export default function Home() {
         <UserReviewsSection />
         <CTASection />
       </div>
-      
-      <Footer />
-    </main>
+    </>
   )
 }

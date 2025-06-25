@@ -1,6 +1,8 @@
 import type React from "react"
 import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { Header } from "@/components/layout/Header"
+import { Footer } from "@/components/Footer"
 import { generateMetadata as createMetadata } from "@/lib/seo/metadata"
 import { createWebAppSchema, createHowToSchema, createFAQSchema } from "@/lib/seo/schemas"
 import { StructuredData } from "@/components/SEO/StructuredData"
@@ -33,7 +35,11 @@ export default function RootLayout({
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+          <Header />
+          <main>
+            {children}
+          </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

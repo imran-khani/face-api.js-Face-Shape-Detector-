@@ -9,7 +9,7 @@ export function HowItWorksSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       ),
-      title: "🖼️ Image Processing",
+      title: "Image Processing",
       description: "Our advanced AI processes your uploaded photo, optimizing lighting and clarity for accurate facial analysis.",
       bgColor: "from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900",
       iconBg: "bg-blue-600"
@@ -21,14 +21,14 @@ export function HowItWorksSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      title: "📍 Facial Landmark Detection",
+      title: "Facial Landmark Detection",
       description: "The system identifies key facial landmarks including forehead width, cheekbone width, jawline, and face length measurements.",
       bgColor: "from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900",
       iconBg: "bg-purple-600"
     },
     {
       icon: <Zap className="h-8 w-8 text-white" />,
-      title: "🤖 AI Model Analysis",
+      title: "AI Model Analysis",
       description: "Our trained AI algorithms analyze facial proportions and compare them against established face shape categories.",
       bgColor: "from-green-50 to-green-100 dark:from-green-950 dark:to-green-900",
       iconBg: "bg-green-600"
@@ -39,7 +39,7 @@ export function HowItWorksSection() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
         </svg>
       ),
-      title: "📊 Final Results",
+      title: "Final Results",
       description: "Receive detailed results showing your primary face shape plus percentage matches for other face types.",
       bgColor: "from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900",
       iconBg: "bg-orange-600"
@@ -49,7 +49,7 @@ export function HowItWorksSection() {
   return (
     <section id="how-it-works" className="py-16">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-4">How Does Face Shape Detector Tool Analyze Face to Find Face Shape?</h2>
+        <h2 className="text-3xl font-bold mb-4">How Face Shape Detection Works</h2>
         <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
           Our advanced AI technology provides professional-level accuracy comparable to expert consultations through a sophisticated 4-step process.
         </p>
