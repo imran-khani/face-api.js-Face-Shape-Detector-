@@ -93,10 +93,16 @@ export default function FaceShapeGuide() {
       </CardHeader>
       <CardContent className="pt-6">
         <Tabs defaultValue="oval" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 mb-4 rounded-lg">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1 mb-4 rounded-lg h-auto p-1">
             {(Object.keys(faceShapeData) as FaceShape[]).map(shape => (
-              <TabsTrigger key={shape} value={shape} className="rounded-md py-2">
-                {shape.charAt(0).toUpperCase() + shape.slice(1)}
+              <TabsTrigger 
+                key={shape} 
+                value={shape} 
+                className="rounded-md py-2 px-2 text-xs sm:text-sm min-w-0 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                <span className="truncate">
+                  {shape.charAt(0).toUpperCase() + shape.slice(1)}
+                </span>
               </TabsTrigger>
             ))}
           </TabsList>

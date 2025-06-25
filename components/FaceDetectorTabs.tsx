@@ -33,7 +33,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
 
   useEffect(() => {
     if (activeTab === "webcam" && isModelLoaded && webcamStarted) {
-      startWebcam()
+      initializeWebcam()
     } else if (activeTab !== "webcam") {
       stopWebcam()
     }
@@ -68,35 +68,67 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
     setWebcamStarted(false)
   }
 
-  const startWebcam = async () => {
-    if (videoRef.current) {
-      try {
-        stopWebcam()
-        
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { 
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
-          } 
-        })
-        videoRef.current.srcObject = stream
-        setWebcamStarted(true)
-        
-        videoRef.current.onloadedmetadata = () => {
-          videoRef.current?.play().catch(e => {
+  const initializeWebcam = async () => {
+    if (!videoRef.current || !isModelLoaded) return
+    
+    try {
+      // Clear any existing error
+      setLoadingError(null)
+      
+      // Request camera permission and stream
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          width: { ideal: 1280, max: 1920 },
+          height: { ideal: 720, max: 1080 },
+          facingMode: 'user'
+        } 
+      })
+      
+      videoRef.current.srcObject = stream
+      
+      // Wait for video metadata to load
+      videoRef.current.onloadedmetadata = () => {
+        if (videoRef.current) {
+          videoRef.current.play().catch(e => {
             console.error("Error playing video:", e)
             setLoadingError("Could not start webcam playback. Please try again.")
+            setWebcamStarted(false)
           })
         }
-      } catch (error) {
-        console.error("Error accessing webcam:", error)
-        setLoadingError("Could not access webcam. Please ensure you've granted camera permissions.")
+      }
+      
+      // Handle video loading errors
+      videoRef.current.onerror = () => {
+        setLoadingError("Error loading webcam feed. Please check your camera.")
         setWebcamStarted(false)
       }
+      
+    } catch (error) {
+      console.error("Error accessing webcam:", error)
+      
+      if (error instanceof DOMException) {
+        switch (error.name) {
+          case 'NotAllowedError':
+            setLoadingError("Camera access denied. Please allow camera permissions and try again.")
+            break
+          case 'NotFoundError':
+            setLoadingError("No camera found. Please connect a camera and try again.")
+            break
+          case 'NotReadableError':
+            setLoadingError("Camera is in use by another application. Please close other apps and try again.")
+            break
+          default:
+            setLoadingError("Could not access webcam. Please check your camera permissions.")
+        }
+      } else {
+        setLoadingError("Could not access webcam. Please ensure you've granted camera permissions.")
+      }
+      
+      setWebcamStarted(false)
     }
   }
 
-  const handleWebcamClick = () => {
+  const handleWebcamClick = async () => {
     if (!webcamStarted && isModelLoaded) {
       setWebcamStarted(true)
     }
@@ -154,8 +186,9 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
       if (!video || !canvas) return
 
       if (activeTab === "webcam" && (!video.srcObject || video.readyState !== 4)) {
-        await startWebcam()
-        await new Promise(resolve => setTimeout(resolve, 1000))
+        setLoadingError("Webcam not ready. Please ensure webcam is started and try again.")
+        setIsProcessing(false)
+        return
       }
 
       const displaySize = { width: video.videoWidth, height: video.videoHeight }
