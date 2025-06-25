@@ -36,7 +36,9 @@ export default function FaceShapePage({ params }: { params: { shape: string } })
   
   return (
     <>
-      <StructuredData schema={createFaceShapeSchema(shapeName)} />
+      {createFaceShapeSchema(shapeName) && (
+        <StructuredData schema={createFaceShapeSchema(shapeName)!} />
+      )}
       
       <div className="min-h-screen bg-background">
         <div className="container mx-auto py-12 px-4 max-w-4xl">
