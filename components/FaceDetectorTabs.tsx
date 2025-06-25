@@ -299,14 +299,14 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
         )}
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-4 rounded-lg">
-            <TabsTrigger value="webcam" className="rounded-md py-3">
-              <Camera className="mr-2 h-4 w-4" />
-              Webcam
+          <TabsList className="grid w-full grid-cols-2 mb-4 rounded-lg h-12 p-1">
+            <TabsTrigger value="webcam" className="rounded-md py-2 px-3 text-sm flex items-center justify-center min-w-0">
+              <Camera className="mr-1.5 h-4 w-4 flex-shrink-0" />
+              <span className="truncate">Webcam</span>
             </TabsTrigger>
-            <TabsTrigger value="upload" className="rounded-md py-3">
-              <Upload className="mr-2 h-4 w-4" />
-              Upload
+            <TabsTrigger value="upload" className="rounded-md py-2 px-3 text-sm flex items-center justify-center min-w-0">
+              <Upload className="mr-1.5 h-4 w-4 flex-shrink-0" />
+              <span className="truncate">Upload</span>
             </TabsTrigger>
           </TabsList>
 
