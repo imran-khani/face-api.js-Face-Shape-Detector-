@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Camera, Upload, Loader2, AlertTriangle, Info } from "lucide-react"
+import { Camera, Upload, Loader2, AlertTriangle, Info, Play, RotateCcw } from "lucide-react"
 
 interface FaceDetectorTabsProps {
   onFaceShapeDetected: (shape: string, imageUrl: string) => void
@@ -19,6 +19,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
   const [imageUrl, setImageUrl] = useState<string | null>(null)
   const [loadingError, setLoadingError] = useState<string | null>(null)
   const [isMirrored, setIsMirrored] = useState(true)
+  const [webcamStarted, setWebcamStarted] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -31,12 +32,12 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
   }, [])
 
   useEffect(() => {
-    if (activeTab === "webcam" && isModelLoaded) {
+    if (activeTab === "webcam" && isModelLoaded && webcamStarted) {
       startWebcam()
     } else if (activeTab !== "webcam") {
       stopWebcam()
     }
-  }, [activeTab, isModelLoaded])
+  }, [activeTab, isModelLoaded, webcamStarted])
 
   const loadModels = async () => {
     try {
@@ -64,6 +65,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
       tracks.forEach((track) => track.stop())
       videoRef.current.srcObject = null
     }
+    setWebcamStarted(false)
   }
 
   const startWebcam = async () => {
@@ -78,6 +80,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
           } 
         })
         videoRef.current.srcObject = stream
+        setWebcamStarted(true)
         
         videoRef.current.onloadedmetadata = () => {
           videoRef.current?.play().catch(e => {
@@ -88,8 +91,19 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
       } catch (error) {
         console.error("Error accessing webcam:", error)
         setLoadingError("Could not access webcam. Please ensure you've granted camera permissions.")
+        setWebcamStarted(false)
       }
     }
+  }
+
+  const handleWebcamClick = () => {
+    if (!webcamStarted && isModelLoaded) {
+      setWebcamStarted(true)
+    }
+  }
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click()
   }
 
   const analyzeFaceShape = (landmarks: any) => {
@@ -249,6 +263,13 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
     loadModels()
   }
 
+  const resetUpload = () => {
+    setImageUrl(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
   return (
     <Card className="w-full border-0 shadow-2xl rounded-2xl overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 max-w-4xl mx-auto">
       <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white pb-8">
@@ -290,13 +311,18 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
           </TabsList>
 
           <TabsContent value="webcam" className="mt-4">
-            <div className="relative aspect-video bg-muted rounded-xl overflow-hidden shadow-sm">
+            <div 
+              className={`relative aspect-video bg-muted rounded-xl overflow-hidden shadow-sm ${
+                !webcamStarted && isModelLoaded ? 'cursor-pointer hover:bg-muted/80 transition-colors' : ''
+              }`}
+              onClick={handleWebcamClick}
+            >
               <video
                 ref={videoRef}
                 autoPlay
                 muted
                 playsInline
-                className={`w-full h-full object-cover ${isMirrored ? "scale-x-[-1]" : ""}`}
+                className={`w-full h-full object-cover ${isMirrored ? "scale-x-[-1]" : ""} ${webcamStarted ? '' : 'hidden'}`}
               />
               <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full" />
 
@@ -308,13 +334,27 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
                   </div>
                 </div>
               )}
+
+              {!webcamStarted && isModelLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-muted/50 backdrop-blur-sm">
+                  <div className="text-center space-y-4">
+                    <div className="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Play className="h-10 w-10 text-primary ml-1" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-medium mb-1">Click to Start Webcam</p>
+                      <p className="text-sm text-muted-foreground">Position your face in the center for best results</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex gap-3 mt-6">
               <Button
                 onClick={detectFaceShape}
                 className="flex-1 rounded-full py-6"
-                disabled={!isModelLoaded || isProcessing}
+                disabled={!isModelLoaded || isProcessing || !webcamStarted}
               >
                 {isProcessing ? (
                   <>
@@ -325,27 +365,36 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
                   "Detect Face Shape"
                 )}
               </Button>
-              <Button
-                onClick={() => setIsMirrored(!isMirrored)}
-                variant="outline"
-                className="px-4 rounded-full"
-                title={isMirrored ? "Show non-mirrored view" : "Show mirrored view"}
-              >
-                {isMirrored ? "Mirror: On" : "Mirror: Off"}
-              </Button>
-              <Button
-                onClick={startWebcam}
-                variant="outline"
-                className="px-4 rounded-full"
-                title="Restart webcam"
-              >
-                Restart
-              </Button>
+              {webcamStarted && (
+                <>
+                  <Button
+                    onClick={() => setIsMirrored(!isMirrored)}
+                    variant="outline"
+                    className="px-4 rounded-full"
+                    title={isMirrored ? "Show non-mirrored view" : "Show mirrored view"}
+                  >
+                    {isMirrored ? "Mirror: On" : "Mirror: Off"}
+                  </Button>
+                  <Button
+                    onClick={() => { stopWebcam(); setWebcamStarted(false) }}
+                    variant="outline"
+                    className="px-4 rounded-full"
+                    title="Stop webcam"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                  </Button>
+                </>
+              )}
             </div>
           </TabsContent>
 
           <TabsContent value="upload" className="mt-4">
-            <div className="relative aspect-video bg-muted rounded-xl overflow-hidden shadow-sm">
+            <div 
+              className={`relative aspect-video bg-muted rounded-xl overflow-hidden shadow-sm ${
+                !imageUrl ? 'cursor-pointer hover:bg-muted/80 transition-colors group' : ''
+              }`}
+              onClick={!imageUrl ? handleUploadClick : undefined}
+            >
               {imageUrl && activeTab === "upload" ? (
                 <img
                   src={imageUrl}
@@ -354,16 +403,21 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <Upload className="h-10 w-10 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-muted-foreground">Upload a clear photo of your face</p>
+                  <div className="text-center space-y-4">
+                    <div className="w-20 h-20 mx-auto bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Upload className="h-10 w-10 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-medium mb-1">Click to Upload Photo</p>
+                      <p className="text-sm text-muted-foreground">Choose a clear front-facing photo</p>
+                    </div>
                   </div>
                 </div>
               )}
               <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full hidden" />
             </div>
 
-            <div className="mt-6">
+            <div className="flex gap-3 mt-6">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -372,9 +426,9 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
                 className="hidden"
               />
               <Button
-                onClick={() => fileInputRef.current?.click()}
+                onClick={handleUploadClick}
                 variant="outline"
-                className="w-full rounded-full py-6"
+                className="flex-1 rounded-full py-6"
                 disabled={isProcessing}
               >
                 {isProcessing ? (
@@ -385,10 +439,20 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
                 ) : (
                   <>
                     <Upload className="mr-2 h-4 w-4" />
-                    Upload Image
+                    {imageUrl ? 'Change Image' : 'Upload Image'}
                   </>
                 )}
               </Button>
+              {imageUrl && (
+                <Button
+                  onClick={resetUpload}
+                  variant="outline"
+                  className="px-4 rounded-full"
+                  title="Clear image"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                </Button>
+              )}
             </div>
           </TabsContent>
         </Tabs>
