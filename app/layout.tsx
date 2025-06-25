@@ -3,7 +3,7 @@ import "@/app/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { generateMetadata as createMetadata } from "@/lib/seo/metadata"
 import { createWebAppSchema, createHowToSchema, createFAQSchema } from "@/lib/seo/schemas"
-import { StructuredData } from "@/components/seo/StructuredData"
+import { StructuredData } from "@/components/SEO/StructuredData"
 
 export const metadata = createMetadata({
   title: "Face Shape Detector - Free AI Tool with Live Webcam & Photo Upload",
@@ -21,12 +21,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/icon.svg" sizes="any" />
         <link rel="apple-touch-icon" href="/icon.svg" />
-        <link rel="manifest" href="/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#3b82f6" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Face Shape Detector" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="//detect-face-shape.codeopx.com" />
