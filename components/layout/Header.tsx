@@ -29,6 +29,13 @@ export function Header() {
             <Link href="/privacy" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               Privacy
             </Link>
+             <Link 
+                href="/terms" 
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Terms and Conditions
+              </Link>
             <Link href="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               About
             </Link>
@@ -68,6 +75,13 @@ export function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Privacy
+              </Link>
+                <Link 
+                href="/terms" 
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Terms and Conditions
               </Link>
               <Link 
                 href="/about" 

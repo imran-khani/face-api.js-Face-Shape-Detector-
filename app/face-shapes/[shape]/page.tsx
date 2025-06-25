@@ -10,28 +10,31 @@ export async function generateStaticParams() {
   return validShapes.map(shape => ({ shape }))
 }
 
-export async function generateMetadata({ params }: { params: { shape: string } }) {
-  const shape = params.shape.charAt(0).toUpperCase() + params.shape.slice(1)
+export async function generateMetadata({ params }: { params: Promise<{ shape: string }> }) {
+  const { shape } = await params
+  const shapeName = shape.charAt(0).toUpperCase() + shape.slice(1)
   
-  if (!validShapes.includes(params.shape)) {
+  if (!validShapes.includes(shape)) {
     return createMetadata({ noindex: true })
   }
 
   return createMetadata({
-    title: `${shape} Face Shape - Complete Style Guide & Tips`,
-    description: `Discover everything about ${shape} face shape: characteristics, best hairstyles, makeup tips, and accessory recommendations. Expert styling advice for ${shape} faces.`,
-    keywords: [`${shape} face shape`, `${shape} hairstyles`, `${shape} makeup`, `${shape} face styling`, "face shape guide"],
-    canonical: `/face-shapes/${params.shape}`,
-    faceShape: shape
+    title: `${shapeName} Face Shape - Complete Style Guide & Tips`,
+    description: `Discover everything about ${shapeName} face shape: characteristics, best hairstyles, makeup tips, and accessory recommendations. Expert styling advice for ${shapeName} faces.`,
+    keywords: [`${shapeName} face shape`, `${shapeName} hairstyles`, `${shapeName} makeup`, `${shapeName} face styling`, "face shape guide"],
+    canonical: `/face-shapes/${shape}`,
+    faceShape: shapeName
   })
 }
 
-export default function FaceShapePage({ params }: { params: { shape: string } }) {
-  if (!validShapes.includes(params.shape)) {
+export default async function FaceShapePage({ params }: { params: Promise<{ shape: string }> }) {
+  const { shape } = await params
+  
+  if (!validShapes.includes(shape)) {
     notFound()
   }
 
-  const shapeName = params.shape.charAt(0).toUpperCase() + params.shape.slice(1)
+  const shapeName = shape.charAt(0).toUpperCase() + shape.slice(1)
   const data = faceShapeData[shapeName as keyof typeof faceShapeData]
   
   return (

@@ -11,7 +11,7 @@ interface SEOConfig {
   schema?: Record<string, any>
 }
 
-const baseUrl = "https://detect-face-shape.codeopx.com"
+const baseUrl = "https://localhost:3000"
 const siteName = "Face Shape Detector"
 const appName = "Face Shape Detector - AI Face Analysis Tool"
 

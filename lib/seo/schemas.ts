@@ -43,7 +43,7 @@ export function createWebAppSchema() {
     "@type": "WebApplication",
     "name": "Face Shape Detector",
     "description": "Free AI-powered face shape detector tool that analyzes your photo to determine your face shape and provides personalized style recommendations",
-    "url": "https://detect-face-shape.codeopx.com",
+    "url": "https://localhost:3000",
     "applicationCategory": "UtilityApplication",
     "operatingSystem": "Any",
     "browserRequirements": "Modern web browser with JavaScript enabled",
@@ -87,17 +87,17 @@ export function createHowToSchema() {
       "@type": "HowToStep",
       "name": "Upload Photo",
       "text": "Upload a clear, front-facing photo of your face or use webcam",
-      "url": "https://detect-face-shape.codeopx.com#upload"
+      "url": "https://localhost:3000#upload"
     }, {
       "@type": "HowToStep", 
       "name": "AI Analysis",
       "text": "Our AI analyzes facial landmarks and proportions",
-      "url": "https://detect-face-shape.codeopx.com#analysis"
+      "url": "https://localhost:3000#analysis"
     }, {
       "@type": "HowToStep",
       "name": "Get Results",
       "text": "Receive your face shape and personalized style recommendations",
-      "url": "https://detect-face-shape.codeopx.com#results"
+      "url": "https://localhost:3000#results"
     }]
   }
 }
@@ -149,14 +149,14 @@ export function createFaceShapeSchema(faceShape: string) {
       "name": "Face Shape Detector",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://detect-face-shape.codeopx.com/logo.jpg"
+        "url": "https://localhost:3000/logo.jpg"
       }
     },
     "datePublished": "2025-01-01",
     "dateModified": new Date().toISOString(),
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://detect-face-shape.codeopx.com/face-shapes/${faceShape.toLowerCase()}`
+      "@id": `https://localhost:3000/face-shapes/${faceShape.toLowerCase()}`
     }
   }
 }

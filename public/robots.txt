@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://detect-face-shape.codeopx.com/sitemap.xml
+Sitemap: https://localhost:3000/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
