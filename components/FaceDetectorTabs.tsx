@@ -20,6 +20,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
   const [loadingError, setLoadingError] = useState<string | null>(null)
   const [isMirrored, setIsMirrored] = useState(true)
   const [webcamStarted, setWebcamStarted] = useState(false)
+  const [webcamError, setWebcamError] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -92,7 +93,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
           videoRef.current.play().catch(e => {
             console.error("Error playing video:", e)
             setLoadingError("Could not start webcam playback. Please try again.")
-            setWebcamStarted(false)
+            setWebcamError(true)
           })
         }
       }
@@ -100,7 +101,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
       // Handle video loading errors
       videoRef.current.onerror = () => {
         setLoadingError("Error loading webcam feed. Please check your camera.")
-        setWebcamStarted(false)
+        setWebcamError(true)
       }
       
     } catch (error) {
@@ -124,7 +125,7 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
         setLoadingError("Could not access webcam. Please ensure you've granted camera permissions.")
       }
       
-      setWebcamStarted(false)
+      setWebcamError(true)
     }
   }
 
@@ -296,6 +297,16 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
     loadModels()
   }
 
+  const retryWebcam = async () => {
+    setLoadingError(null)
+    setWebcamStarted(false)
+    
+    // Wait a moment to ensure state is cleared
+    setTimeout(() => {
+      setWebcamStarted(true)
+    }, 100)
+  }
+
   const resetUpload = () => {
     setImageUrl(null)
     if (fileInputRef.current) {
@@ -323,11 +334,18 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{loadingError}</AlertDescription>
-            {loadingError.includes("Failed to load face detection models") && (
-              <Button onClick={retryModelLoading} variant="outline" size="sm" className="mt-2">
-                Retry Loading Models
-              </Button>
-            )}
+            <div className="mt-3 flex gap-2">
+              {loadingError.includes("Failed to load face detection models") && (
+                <Button onClick={retryModelLoading} variant="outline" size="sm">
+                  Retry Loading Models
+                </Button>
+              )}
+              {(loadingError.includes("webcam") || loadingError.includes("camera") || loadingError.includes("Camera")) && (
+                <Button onClick={retryWebcam} variant="outline" size="sm">
+                  Retry Webcam
+                </Button>
+              )}
+            </div>
           </Alert>
         )}
 
@@ -377,6 +395,23 @@ export function FaceDetectorTabs({ onFaceShapeDetected, onError }: FaceDetectorT
                     <div>
                       <p className="text-lg font-medium mb-1">Click to Start Webcam</p>
                       <p className="text-sm text-muted-foreground">Position your face in the center for best results</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {webcamStarted && webcamError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-red-50/90 dark:bg-red-950/90 backdrop-blur-sm">
+                  <div className="text-center space-y-4">
+                    <div className="w-20 h-20 mx-auto bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
+                      <AlertTriangle className="h-10 w-10 text-red-600 dark:text-red-400" />
+                    </div>
+                    <div>
+                      <p className="text-lg font-medium mb-1 text-red-800 dark:text-red-200">Webcam Error</p>
+                      <p className="text-sm text-red-600 dark:text-red-400 mb-4">Unable to access camera</p>
+                      <Button onClick={retryWebcam} size="sm" variant="outline" className="border-red-300 hover:bg-red-50 dark:border-red-700 dark:hover:bg-red-950">
+                        Try Again
+                      </Button>
                     </div>
                   </div>
                 </div>
